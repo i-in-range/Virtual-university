@@ -1,1 +1,2 @@
-# Virtual-university
+# Task 10 - SQL
+
