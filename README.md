@@ -1,6 +1,6 @@
 # Virtual university
 
-It is one of my studying tasks. I have create the API for some university.
+It is one of my studying tasks. I createв the API for some university.
 
 ## Used technologies
 
