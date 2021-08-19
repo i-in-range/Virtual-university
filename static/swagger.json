@@ -1,0 +1,280 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Virtual University API",
+    "description": "API for Virtual University data management ",
+    "contact": {
+      "email": "baranov.info@gmail.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:5000/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "groups",
+      "description": "manage groups of Virtual University"
+    },
+    {
+      "name": "students",
+      "description": "manage students of Virtual University"
+    },
+    {
+      "name": "courses",
+      "description": "manage courses of Virtual University"
+    }
+  ],
+  "paths": {
+    "/groups/": {
+      "get": {
+        "tags": [
+          "groups"
+        ],
+        "summary": "Get list of groups with filter by size",
+        "description": "Find all groups with less or equals student count",
+        "parameters": [
+          {
+            "name": "max_size",
+            "in": "query",
+            "description": "Maximum amount of students in group",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/group"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Requested data does not exist",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/students/": {
+      "post": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Add student",
+        "description": "Add new student to the University",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/add_student"
+                  }
+                ],
+                "description": "First and Last names dictionary couple"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/students/{student_id}": {
+      "delete": {
+        "tags": [
+          "students"
+        ],
+        "summary": "Delete student by STUDENT_ID",
+        "description": "Delete student from the University",
+        "parameters": [
+          {
+            "name": "student_id",
+            "in": "path",
+            "description": "Student's ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/courses/{course_name}": {
+      "get": {
+        "tags": [
+          "courses"
+        ],
+        "summary": "List of student of course",
+        "description": "Find all students related to the course with a given name",
+        "parameters": [
+          {
+            "name": "course_name",
+            "in": "path",
+            "description": "Name of course",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {}
+          },
+          "404": {
+            "description": "Requested data does not exist",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/courses/": {
+      "put": {
+        "tags": [
+          "courses"
+        ],
+        "summary": "Add student",
+        "description": "Add a student to the course (from a list)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "attending_list": {
+                    "$ref": "#/components/schemas/attending_list"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "404": {
+            "description": "Requested data does not exist",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "courses"
+        ],
+        "summary": "Delete student",
+        "description": "Remove the student from one of his or her courses",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/attending"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Successful operation",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "group": {
+        "type": "object",
+        "properties": {
+          "group_name": {
+            "type": "string"
+          },
+          "students_amount": {
+            "type": "integer"
+          }
+        }
+      },
+      "add_student": {
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "type": "string",
+            "description": "First name"
+          },
+          "last_name": {
+            "type": "string",
+            "description": "Last name"
+          }
+        }
+      },
+      "attending": {
+        "type": "object",
+        "properties": {
+          "student_id": {
+            "type": "integer"
+          },
+          "course_id": {
+            "type": "integer"
+          }
+        }
+      },
+      "attending_list": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/attending"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
