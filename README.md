@@ -1,6 +1,6 @@
 # Virtual university
 
-It is one of my studying tasks. Here created the API for some university.
+It is one of my studying tasks. Here created the API and web interface for some university.
 
 ## Used technologies
 
@@ -13,7 +13,8 @@ Students, Groups, Courses
 ## Usage
 
 API gives ability to add student to University or/and to one of its groups, delete student, make or remove attendance of student to any course.
-Use ```/swagger``` to try it.
+Use ```/``` to try web shell.
+Use ```/swagger``` to try API.
 
 ## License
 Licensed under the [MIT](LICENSE)
