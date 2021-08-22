@@ -37,6 +37,7 @@ app.register_blueprint(api_bp, url_prefix='/api/v1')
 app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 
 
+# Uncomment this before first launch and then comment it back
 # @app.before_first_request
 # def db_initialize():
 #     with app.app_context():
