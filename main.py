@@ -20,7 +20,7 @@ def create_app(config_object):
 
 app = create_app(BaseConfig)
 migrate = Migrate(app, db)
-
+Menu(app=app)
 
 SWAGGER_URL = '/swagger'
 API_URL = '/static/swagger.json'
@@ -42,6 +42,7 @@ app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 #     with app.app_context():
 #         db.create_all()
 #         create_all_data()
+
 
 @app.route('/')
 @register_menu(app, '.home', 'Home')
