@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {{ super() }}
+    {% block courses_table %}
+    <table border="1">
+        <tr>
+            <th>Course name</th>
+            <th>Students amount</th>
+        </tr>
+        {% for course in course_list -%}
+            <tr>
+                {% if course.course_name == course_name -%}
+                    <td align="center">{{ course.course_name }}</td>
+                {% else -%}
+                    <td align="center"><a href="{{ url_for('courses', course_name=course.course_name) }}">
+                        {{ course.course_name }}</a></td>
+                {% endif %}
+                    <td align="center">{{ course.amount }}</td>
+            </tr>
+        {% endfor %}
+
+    {% endblock %}
+    </table>
+    {% block students %}
+        {% if students_list %}
+            <p>Students of {{ course_name }} course</p>
+            <ol>
+                {% for student in students_list -%}
+                    <li>{{ student.first_name }} {{ student.last_name }}</li>
+                {% endfor %}
+            </ol>
+        {% endif %}
+    {% endblock %}
+{% endblock %}

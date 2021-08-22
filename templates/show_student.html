@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {{ super() }}
+    {% block student_manage %}
+        {% if student_data[0] %}
+            <p>Student: {{ student_data[0].first_name }} {{ student_data[0].last_name }}</p>
+            {% if student_data[0].name %}
+                <p>Group: {{ student_data[0].name }}</p>
+            {% else %}
+                <p>The specified student is not a member of any group</p>
+            {% endif %}
+            {% if student_data[0].course_name %}
+                <p>Attend courses:</p>
+                <ol>
+                {% for course in student_data -%}
+                    <li>{{ course.course_name }} <a href="{{ url_for('delete_course', student_id=student_id, course_id=course.id) }}">(delete)</a></li>
+                {% endfor %}
+                </ol>
+            {% else %}
+                <p>Specified student do not attend any course</p>
+            {% endif %}
+            {% block add_course %}
+                {% if available_courses %}
+                    <form action="{{ url_for('add_course', student_id=student_id) }}" method="post">
+                        <select name="course">
+                            <option value="" hidden="">Select course</option>
+                            {% for course in available_courses %}
+                                <option value="{{ course.id }}">{{ course.course_name }}</option>"
+                            {% endfor %}
+                        </select>
+                        <p><input type="submit" value="Add course"></p>
+                    </form>
+                {% endif %}
+
+            {% endblock %}
+            <p><a href="{{ url_for('delete_student', student_id=student_id)}}">Delete current student</a></p>
+        {% else %}
+            <p>The specified student does not exist</p>
+        {% endif %}
+    {% endblock %}
+{% endblock %}

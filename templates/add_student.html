@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {{ super() }}
+    {% block student_manage %}
+    <form action="{{ url_for('add_student') }}" method="post">
+        <p><label>First name:</label><input type="text" name="first_name" value="" required /></p>
+        <p><label>Last name:</label><input type="text" name="last_name" value="" required /></p>
+        <select name="group">
+            <option value="" hidden="">Select group</option>
+            {% for group in group_list %}
+                <option value="{{ group.id }}">{{ group.name }}</option>"
+            {% endfor %}
+        </select>
+        <p><input type="submit" value="Submit"></p>
+    </form>
+
+
+    {% endblock %}
+{% endblock %}

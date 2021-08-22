@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+{% block title %}
+    {% if title %}
+    <title>Virtual University - {{ title }}</title>
+    {% else %}
+    <title>Virtual University</title>
+    {% endif %}
+{% endblock %}
+</head>
+<body>
+{% block content %}
+    {% block menu %}
+    <div>
+        {%- for item in current_menu.children -%}
+        {% if request.path == item.url %}
+            <div style="display: inline-block">{{item.text}}</div>
+        {% else %}
+            <div style="display: inline-block"><a href="{{item.url}}">{{item.text}}</a></div>
+        {% endif %}
+        {%- endfor -%}
+    {% endblock %}
+    </div><br>
+{% endblock -%}
+</body>
+</html>
